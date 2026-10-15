@@ -63,7 +63,6 @@ def compute_node_degrees(src, dst, num_nodes, edge_weight=None):
        edge_weight = torch.ones(src.shape[0],dtype=torch.float32)
     d = torch.zeros(num_nodes,dtype=torch.float32)
     d_in = d.scatter_add(0,dst,edge_weight)
-    #d_in = torch.sum(d,dim=0)
 
     return d_in
 
