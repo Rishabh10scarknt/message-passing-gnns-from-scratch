@@ -45,10 +45,10 @@ def add_self_loops(src, dst, num_nodes):
         src_out: LongTensor [E + num_nodes]
         dst_out: LongTensor [E + num_nodes]
     """
-    # TODO: Append self-loop edges (i, i) for every node to the COO tensors
     for i in range(num_nodes):
         src = torch.hstack((src, torch.tensor(i, dtype=src.dtype)))
         dst = torch.hstack((dst, torch.tensor(i, dtype=dst.dtype)))
+    
     return src, dst
 
 # Step 3 - compute_node_degrees (not yet solved)
