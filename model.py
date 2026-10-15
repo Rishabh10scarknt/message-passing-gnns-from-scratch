@@ -7,7 +7,6 @@ Assembled from your step-by-step solutions.
 import numpy as np
 
 # Step 1 - edges_to_coo
-import torch 
 def edges_to_coo(edge_list, num_nodes=None):
     # TODO: Convert a list of (src, dst) edge pairs into COO-format src/dst tensors
     
