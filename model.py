@@ -17,8 +17,8 @@ def edges_to_coo(edge_list, num_nodes=None):
        #src = torch.tensor(src, dtype=torch.int64)
        #dst = torch.tensor(dst, dtype=torch.int64)
        edge_list = torch.tensor(edge_list, dtype=torch.int64)
-       src = edge_list[:,0].to(torch.int64)
-       dst = edge_list[:,1].to(torch.int64)
+       src = edge_list[:,0].to(edge_list.dtype)
+       dst = edge_list[:,1].to(edge_list.dtype)
 
        arr = torch.stack((src,dst),dim=0)
 
