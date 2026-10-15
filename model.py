@@ -12,25 +12,40 @@ import torch
 def edges_to_coo(edge_list, num_nodes=None):
     # TODO: Convert a list of (src, dst) edge pairs into COO-format src/dst tensors
     
-    if len(edge_list) >= 1:
+   # if len(edge_list) >= 1:
        #src, dst = zip(*edge_list) # zip can slow for larger tensors 
 
        #src = torch.tensor(src, dtype=torch.int64)
        #dst = torch.tensor(dst, dtype=torch.int64)
-       edge_list = torch.tensor(edge_list, dtype=torch.int64)
-       src = edge_list[:,0].to(edge_list.dtype)
-       dst = edge_list[:,1].to(edge_list.dtype)
+   #    edge_list = torch.tensor(edge_list, dtype=torch.int64)
+   #    src = edge_list[:,0].to(edge_list.dtype)
+   #    dst = edge_list[:,1].to(edge_list.dtype)
 
-       arr = torch.stack((src,dst),dim=0)
+   #    arr = torch.stack((src,dst),dim=0)
 
-       if num_nodes:
-          return src,dst,num_nodes
-       else:
-          return src,dst,int(torch.max(arr).item())+1
-    else:
-        if num_nodes==None:
-           num_nodes = 0  
-        return torch.empty(0,dtype=torch.int64),torch.empty(0,dtype=torch.int64),num_nodes
+   #    if num_nodes:
+   #       return src,dst,num_nodes
+   #    else:
+   #       return src,dst,int(torch.max(arr).item())+1
+   # else:
+   #     if num_nodes==None:
+   #        num_nodes = 0  
+   #     return torch.empty(0,dtype=torch.int64),torch.empty(0,dtype=torch.int64),num_nodes
+   if not isinstance(edge_list, torch.Tensor):
+        edge_list = torch.as_tensor(edge_list,dtype=torch.long)
+        #edge_list = torch.as_tensor(edge_list,*, dtype=torch.long)
+
+   if edge_list.numel() == 0:
+      if num_nodes == None:
+         num_nodes=0
+      return (torch.empty(0,dtype=torch.long),torch.empty(0,dtype=torch.long),num_nodes)
+   else:
+      edges = edge_list.reshape(-1,2)
+      src = edges[:,0]
+      dst = edges[:,1]
+      if num_nodes == None:
+         num_nodes = int(torch.max(edges).item())+1
+      return (src,dst,num_nodes)
 
 # Step 2 - add_self_loops
 def add_self_loops(src, dst, num_nodes):
