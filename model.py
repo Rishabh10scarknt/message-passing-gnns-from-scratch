@@ -40,13 +40,10 @@ def add_self_loops(src, dst, num_nodes):
         src_out: LongTensor [E + num_nodes]
         dst_out: LongTensor [E + num_nodes]
     """
-    #for i in range(num_nodes):
-    #    src = torch.hstack((src, torch.tensor(i, dtype=src.dtype)))
-    #    dst = torch.hstack((dst, torch.tensor(i, dtype=dst.dtype)))
     arr = torch.arange(num_nodes, dtype=src.dtype, device=src.device)
-    src = torch.cat([src,arr], dim=0)
+    src = torch.cat([src,arr], dim=0) # alter: torch.hstack((src,arr))
     dst = torch.cat([dst,arr], dim=0)
-    
+
     return src, dst
 
 # Step 3 - compute_node_degrees (not yet solved)
