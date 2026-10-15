@@ -33,7 +33,6 @@ def edges_to_coo(edge_list, num_nodes=None):
         return torch.empty(0,dtype=torch.int64),torch.empty(0,dtype=torch.int64),num_nodes
 
 # Step 2 - add_self_loops
-import torch
 def add_self_loops(src, dst, num_nodes):
     """Append self-loop edges (i, i) for every node to COO edge indices.
 
