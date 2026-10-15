@@ -32,8 +32,8 @@ def edges_to_coo(edge_list, num_nodes=None):
    #        num_nodes = 0  
    #     return torch.empty(0,dtype=torch.int64),torch.empty(0,dtype=torch.int64),num_nodes
    if not isinstance(edge_list, torch.Tensor):
-        edge_list = torch.as_tensor(edge_list,dtype=torch.long)
-        #edge_list = torch.as_tensor(edge_list,*, dtype=torch.long)
+        #edge_list = torch.as_tensor(edge_list,dtype=torch.long)
+        edge_list = torch.as_tensor(edge_list, dtype=torch.long)
 
    if edge_list.numel() == 0:
       if num_nodes == None:
