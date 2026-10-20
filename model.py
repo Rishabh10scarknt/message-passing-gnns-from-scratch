@@ -83,23 +83,17 @@ def symmetric_normalize_edge_weights(src, dst, num_nodes, edge_weight=None):
     if edge_weight is None:
         edge_weight = torch.ones(src.shape[0], dtype=torch.float32) 
     
-    d_j = compute_node_degrees(src, dst, num_nodes, edge_weight=edge_weight)
-    d_i = compute_node_degrees(dst, src, num_nodes, edge_weight=edge_weight)
+    d_in = compute_node_degrees(src, dst, num_nodes, edge_weight=edge_weight)
 
+    # broadcast in-degree nodes on the src and dst indices (edges) 
+    deg_src = d_in[src]
+    deg_dst = d_in[dst]
     
-    #degree_matrix = d_i[:,None]* d_j[None,:]
-    #inverse_deg_pow = torch.pow(degree_matrix,-0.5)
-    #edge_weight = edge_weight * inverse_deg_pow
-        # 2. Map node degrees to each specific edge using src and dst indexing (Shape: [E])
-    deg_src = d_j[src]
-    deg_dst = d_j[dst]
-    
-    # 3. Calculate 1 / sqrt(d_i * d_j) element-wise
+    # Calculate 1 / sqrt(d_i * d_j) element-wise
     # Clamp to avoid division by zero for isolated nodes
     inv_sqrt_deg = torch.pow(deg_src * deg_dst, -0.5)
     inv_sqrt_deg[torch.isinf(inv_sqrt_deg)] = 0.0
 
-    # 4. Multiply with existing edge weights element-wise (Shape: [E])
     normalized_edge_weight = edge_weight * inv_sqrt_deg
 
 
