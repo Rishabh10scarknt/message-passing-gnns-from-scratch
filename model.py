@@ -99,8 +99,10 @@ def symmetric_normalize_edge_weights(src, dst, num_nodes, edge_weight=None):
 
     return normalized_edge_weight
 
-# Step 5 - gather_source_node_features (not yet solved)
-# TODO: implement
+# Step 5 - gather_source_node_features
+def gather_source_node_features(node_features, src):
+    
+    return   torch.index_select(node_features,dim=0,index=src)
 
 # Step 6 - scatter_sum_to_nodes (not yet solved)
 # TODO: implement
