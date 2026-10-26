@@ -136,8 +136,15 @@ def scatter_mean_to_nodes(edge_features, dst, num_nodes):
 
      return m
 
-# Step 8 - scatter_max_to_nodes (not yet solved)
-# TODO: implement
+# Step 8 - scatter_max_to_nodes
+def scatter_max_to_nodes(edge_features, dst, num_nodes):
+
+    F = edge_features.shape[1]
+    Y = torch.full((num_nodes,F),float('-inf'),dtype=edge_features.dtype)
+    dst = dst.unsqueeze(1).expand_as(edge_features)
+    node_max = Y.scatter_reduce(0,dst,edge_features,reduce='amax',include_self=True)
+
+    return node_max
 
 # Step 9 - compute_messages (not yet solved)
 # TODO: implement
